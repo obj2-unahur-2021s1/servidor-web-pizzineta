@@ -22,17 +22,17 @@ class ServidorWeb{
 
   val modulos = mutableListOf<Modulo>()
 
+
   fun realizarPedido(unPedido: Pedido) =
-    if(this.algunModuloPuedeResponder(unPedido)) {
-      if (unPedido.protocoloUrl() == "http") {
-        Respuesta(CodigoHttp.OK, this.moduloQuePuedeResponder(unPedido)!!.body, this.moduloQuePuedeResponder(unPedido)!!.tiempo, unPedido)
-      } else {
+    when{
+      this.algunModuloPuedeResponder(unPedido) && (unPedido.protocoloUrl() == "http")->
+      Respuesta(CodigoHttp.OK, this.moduloQuePuedeResponder(unPedido)!!.body, this.moduloQuePuedeResponder(unPedido)!!.tiempo, unPedido)
+      this.algunModuloPuedeResponder(unPedido) && (unPedido.protocoloUrl() != "http") ->
         Respuesta(CodigoHttp.NOT_IMPLEMENTED, "", 10, unPedido)
+      else ->
+        Respuesta(CodigoHttp.NOT_FOUND, "", 10, unPedido)
       }
-    }
-    else {
-      Respuesta(CodigoHttp.NOT_FOUND, "Pagina no encontrada", 100, unPedido)
-    }
+
 
   fun agregarModulo(unModulo: Modulo) =
     modulos.add(unModulo)
