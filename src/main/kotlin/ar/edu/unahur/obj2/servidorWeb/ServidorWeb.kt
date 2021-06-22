@@ -17,10 +17,18 @@ class Pedido(val ip: String, val url: String, val fechaHora: LocalDateTime){
     url.substringAfterLast(".")
 
 }
+
 class Respuesta(val codigo: CodigoHttp, val body: String, val tiempo: Int, val pedido: Pedido)
+
 class ServidorWeb{
 
   val modulos = mutableListOf<Modulo>()
+
+  val analizadores = mutableListOf<Analizador>()
+
+  fun agregarAnalizador(unAnalizador: Analizador) = analizadores.add(unAnalizador)
+
+  fun removerAnalizador(unAnalizador: Analizador) = analizadores.remove(unAnalizador)
 
 
   fun realizarPedido(unPedido: Pedido) =
