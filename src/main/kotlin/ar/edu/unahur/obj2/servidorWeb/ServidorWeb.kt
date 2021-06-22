@@ -10,5 +10,17 @@ enum class CodigoHttp(val codigo: Int) {
   NOT_FOUND(404),
 }
 
-class Pedido(val ip: String, val url: String, val fechaHora: LocalDateTime)
+class Pedido(val ip: String, val url: String, val fechaHora: LocalDateTime){
+  fun protocoloUrl() =
+    url.substringBefore(":")
+}
 class Respuesta(val codigo: CodigoHttp, val body: String, val tiempo: Int, val pedido: Pedido)
+class ServidorWeb{
+  fun realizarPedido(unPedido: Pedido) =
+    if(unPedido.protocoloUrl() == "http"){
+      Respuesta(CodigoHttp.OK, "ok", 10, unPedido)
+    }
+    else{
+      Respuesta(CodigoHttp.NOT_IMPLEMENTED, "", 10, unPedido)
+    }
+}
