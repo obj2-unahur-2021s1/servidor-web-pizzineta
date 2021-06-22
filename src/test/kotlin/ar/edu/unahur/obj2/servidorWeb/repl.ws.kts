@@ -7,3 +7,4 @@ val pedido2 = Pedido("8.8.8.8", "https://unahur.edu.ar/informatica.jpg", LocalDa
 val servidor1 = ServidorWeb()
 
 pedido1.url.substringBeforeLast(".")
+

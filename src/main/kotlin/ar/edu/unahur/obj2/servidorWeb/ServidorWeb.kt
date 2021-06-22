@@ -23,12 +23,17 @@ class ServidorWeb{
   val modulos = mutableListOf<Modulo>()
 
   fun realizarPedido(unPedido: Pedido) =
-    if(unPedido.protocoloUrl() == "http"){
-      Respuesta(CodigoHttp.OK, "ok", 10, unPedido)
+    if(this.algunModuloPuedeResponder(unPedido)) {
+      if (unPedido.protocoloUrl() == "http") {
+        Respuesta(CodigoHttp.OK, this.moduloQuePuedeResponder(unPedido)!!.body, this.moduloQuePuedeResponder(unPedido)!!.tiempo, unPedido)
+      } else {
+        Respuesta(CodigoHttp.NOT_IMPLEMENTED, "", 10, unPedido)
+      }
     }
-    else{
-      Respuesta(CodigoHttp.NOT_IMPLEMENTED, "", 10, unPedido)
+    else {
+      Respuesta(CodigoHttp.NOT_FOUND, "Pagina no encontrada", 100, unPedido)
     }
+
   fun agregarModulo(unModulo: Modulo) =
     modulos.add(unModulo)
 
@@ -36,5 +41,8 @@ class ServidorWeb{
     modulos.remove(unModulo)
 
   fun moduloQuePuedeResponder(unPedido: Pedido) =
-    modulos.find { it.puedeAtender(unPedido) }
+    modulos.find{ it.puedeResponder(unPedido) }
+
+  fun algunModuloPuedeResponder(unPedido: Pedido) =
+    modulos.any{ it.puedeResponder(unPedido) }
 }
