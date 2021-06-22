@@ -13,9 +13,15 @@ enum class CodigoHttp(val codigo: Int) {
 class Pedido(val ip: String, val url: String, val fechaHora: LocalDateTime){
   fun protocoloUrl() =
     url.substringBefore(":")
+  fun extencionUrl() =
+    url.substringAfterLast(".")
+
 }
 class Respuesta(val codigo: CodigoHttp, val body: String, val tiempo: Int, val pedido: Pedido)
 class ServidorWeb{
+
+  val modulos = mutableListOf<Modulo>()
+
   fun realizarPedido(unPedido: Pedido) =
     if(unPedido.protocoloUrl() == "http"){
       Respuesta(CodigoHttp.OK, "ok", 10, unPedido)
@@ -23,4 +29,12 @@ class ServidorWeb{
     else{
       Respuesta(CodigoHttp.NOT_IMPLEMENTED, "", 10, unPedido)
     }
+  fun agregarModulo(unModulo: Modulo) =
+    modulos.add(unModulo)
+
+  fun removerModulo(unModulo: Modulo) =
+    modulos.remove(unModulo)
+
+  fun moduloQuePuedeResponder(unPedido: Pedido) =
+    modulos.find { it.puedeAtender(unPedido) }
 }
