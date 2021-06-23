@@ -1,7 +1,11 @@
-// Pueden usar este archivo para hacer pruebas rápidas,
-// de la misma forma en que usaban el REPL de Wollok.
+import ar.edu.unahur.obj2.servidorWeb.Modulo
+import ar.edu.unahur.obj2.servidorWeb.Pedido
+import ar.edu.unahur.obj2.servidorWeb.ServidorWeb
+import java.time.LocalDateTime
 
-// OJO: lo que esté aquí no será tenido en cuenta
-// en la corrección ni reemplaza a los tests.
-
-listOf(1, 8, 10).average()
+val pedido1 = Pedido("12.12.12.12", "http://unahur.edu.ar/campus.html", LocalDateTime.now())
+val pedido2 = Pedido("8.8.8.8", "https://unahur.edu.ar/informatica.docx", LocalDateTime.now())
+val servidor1 = ServidorWeb()
+val modulo1 = Modulo(listOf("html", "docx"), "hola que tal", 10)
+servidor1.agregarModulo(modulo1)
+servidor1.realizarPedido(pedido1).tiempo
