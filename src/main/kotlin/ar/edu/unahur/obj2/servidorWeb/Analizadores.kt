@@ -1,7 +1,8 @@
 package ar.edu.unahur.obj2.servidorWeb
 
 abstract class Analizador {
-    val moduloYRespuestaAsignadosxServidorWeb = mutableMapOf<Modulo, MutableList<Respuesta>>()
+    val respuestas = mutableListOf<Respuesta>()
+    val modulos = mutableListOf<Modulo>()
 }
 
 class DeteccionDeDemoraEnRespuesta: Analizador() {
